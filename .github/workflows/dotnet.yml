@@ -21,9 +21,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
-      working-directory: FarmFresh/
+      run: dotnet restore ./FarmFresh/FarmFresh.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ./FarmFresh/FarmFresh.sln --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
