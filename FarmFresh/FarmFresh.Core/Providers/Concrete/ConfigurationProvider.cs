@@ -17,12 +17,16 @@ namespace FarmFresh.Core.Providers.Concrete
         private string secretKeyEnvironmentVariableName = "JWT_SECRETKEY";
         private string expiryDurationEnvironmentVariableName = "JWT_EXPIRY_DURATION_IN_MINUTES";
 
+        private string DatabaseConnectionStringEnvironmentVariableName = "DATABASE_CONNECTION_STRING";
+
         // appsettings
         private string issuerAppSettingsName = "Jwt:Issuer";
         private string authorityAppSettingsName = "Jwt:Authority";
         private string audienceAppSettingsName = "Jwt:Audience";
         private string secretKeyAppSettingsName = "Jwt:SecretKey";
         private string expiryDurationAppSettingsName = "Jwt:ExpiryDurationInMinutes";
+
+        private string DatabaseConnectionStringAppSettingsName = "DatabaseConnectionStrings:DefaultConnection";
 
         #endregion
 
@@ -39,6 +43,7 @@ namespace FarmFresh.Core.Providers.Concrete
         public string Audience => GetAudience();
         public string SecretKey => GetSecretKey();
         public double ExpiryDuration => GetExpiryDuration();
+        public string DatabaseConnectionString => GetDatabaseConnectionString();
 
         #endregion
 
@@ -71,6 +76,14 @@ namespace FarmFresh.Core.Providers.Concrete
         {
             var result = GetFromEnvironmentOrAppSettings(secretKeyEnvironmentVariableName,
                 secretKeyAppSettingsName);
+
+            return result;
+        }
+
+        private string GetDatabaseConnectionString()
+        {
+            var result = GetFromEnvironmentOrAppSettings(DatabaseConnectionStringEnvironmentVariableName,
+                DatabaseConnectionStringAppSettingsName);
 
             return result;
         }

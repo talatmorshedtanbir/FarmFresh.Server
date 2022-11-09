@@ -2,7 +2,7 @@
 
 namespace FarmFresh.Core.Services.Abstract
 {
-    public interface IUserService
+    public interface IAuthService
     {
         Task<bool> AuthenticateUser(LoginRequest loginRequest);
     }

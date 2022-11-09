@@ -10,11 +10,11 @@ namespace FarmFresh.Core.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IUserService userService;
+        private readonly IAuthService userService;
         private readonly ILogger<AuthController> logger;
         private readonly ITokenService tokenService;
 
-        public AuthController(IUserService userService,
+        public AuthController(IAuthService userService,
             ILogger<AuthController> logger,
             ITokenService tokenService)
         {

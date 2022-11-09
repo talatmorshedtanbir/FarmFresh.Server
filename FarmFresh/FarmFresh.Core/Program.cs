@@ -1,3 +1,4 @@
+using Autofac.Extensions.DependencyInjection;
 using Serilog;
 
 namespace FarmFresh.Core
@@ -30,6 +31,7 @@ namespace FarmFresh.Core
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
