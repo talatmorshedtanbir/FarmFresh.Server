@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FarmFresh.Framework.Entities.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace FarmFresh.Framework.Context
 {
@@ -30,5 +31,7 @@ namespace FarmFresh.Framework.Context
         {
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<User> Users { get; set; }
     }
 }
