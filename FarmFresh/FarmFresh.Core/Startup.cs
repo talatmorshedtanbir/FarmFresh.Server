@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FarmFresh.Core.Services.Abstract;
+using FarmFresh.Core.Services.Concrete;
+using Microsoft.AspNetCore.Mvc;
 using ConfigurationProvider = FarmFresh.Core.Providers.Concrete.ConfigurationProvider;
 using IConfigurationProvider = FarmFresh.Core.Providers.Abstract.IConfigurationProvider;
 
@@ -29,8 +31,8 @@ namespace FarmFresh.Core
                 });
 
             //Register Application Services 
-            //services.AddScoped<ITokenService, TokenService>();
-            //services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IConfigurationProvider, ConfigurationProvider>();
         }
 
@@ -57,7 +59,7 @@ namespace FarmFresh.Core
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Jwt Authentication Api V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Farm Fresh Api V1");
             });
 
             app.UseEndpoints(endpoints =>

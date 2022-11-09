@@ -1,3 +1,6 @@
+using FarmFresh.Core.Models.Requests;
+using FarmFresh.Core.Models.Responses;
+using FarmFresh.Core.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -21,24 +24,24 @@ namespace FarmFresh.Core.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] LoginRequestDto loginRequestDto)
+        public async Task<IActionResult> Post([FromBody] LoginRequest loginRequest)
         {
             try
             {
-                var authenticationResponse = await userService.AuthenticateUser(loginRequestDto);
+                var isAuthenticated = await userService.AuthenticateUser(loginRequest);
 
-                if (authenticationResponse.Code is 1)
+                if (isAuthenticated is true)
                 {
                     var claims = new[]
                     {
-                        new Claim("Email", loginRequestDto.EmailId)
+                        new Claim("Email", loginRequest.Email)
                     };
 
                     var (token, expiryMinutes) = tokenService.BuildToken(claims);
 
-                    var loginResponse = new LoginResponseDto
+                    var loginResponse = new LoginResponse
                     {
-                        Email = loginRequestDto.EmailId,
+                        Email = loginRequest.Email,
                         Token = token,
                         ExpiresAt = expiryMinutes
                     };
@@ -53,7 +56,7 @@ namespace FarmFresh.Core.Controllers
 
                 var result = new
                 {
-                    Message = "Unauthenticated"
+                    Message = "Unauthenticated."
                 };
 
                 return Unauthorized(result);
@@ -64,7 +67,7 @@ namespace FarmFresh.Core.Controllers
 
                 var result = new
                 {
-                    ex.Message
+                    Message = "Failed to authenticated user."
                 };
 
                 return BadRequest(result);
