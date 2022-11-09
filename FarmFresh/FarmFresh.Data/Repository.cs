@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Data;
-using System.Data.Common;
-using System.Dynamic;
 using System.Linq.Expressions;
 
 namespace FarmFresh.Data
@@ -335,6 +333,7 @@ namespace FarmFresh.Data
         {
             _dbContext.RemoveRange(entities);
         }
+
         #endregion
 
         #region SQL
@@ -348,94 +347,6 @@ namespace FarmFresh.Data
             return _dbContext.Database.ExecuteSqlRaw(sql, parameters);
         }
 
-        public IList<dynamic> GetFromSql(string sql, Dictionary<string, object> parameters, bool isStoredProcedure = false)
-        {
-            var items = new List<dynamic>();
-
-            using (var command = _dbContext.Database.GetDbConnection().CreateCommand())
-            {
-                command.CommandText = sql;
-                if (isStoredProcedure) { command.CommandType = CommandType.StoredProcedure; }
-                if (command.Connection.State != ConnectionState.Open) { command.Connection.Open(); }
-
-                foreach (var param in parameters)
-                {
-                    DbParameter dbParameter = command.CreateParameter();
-                    dbParameter.ParameterName = param.Key;
-                    dbParameter.Value = param.Value;
-                    command.Parameters.Add(dbParameter);
-                }
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var item = new ExpandoObject() as IDictionary<string, object>;
-                        for (var count = 0; count < reader.FieldCount; count++)
-                        {
-                            item.Add(reader.GetName(count), reader[count]);
-                        }
-                        items.Add(item);
-                    }
-                }
-            }
-
-            return items;
-        }
-
-        public (IList<TEntity> Items, int Total, int TotalFilter) GetFromSql(string sql, IList<(string Key, object Value, bool IsOut)> parameters, bool isStoredProcedure = true)
-        {
-            var items = new List<TEntity>();
-            int? totalCount = 0;
-            int? filteredCount = 0;
-
-            using (var command = _dbContext.Database.GetDbConnection().CreateCommand())
-            {
-                command.CommandText = sql;
-                if (isStoredProcedure) { command.CommandType = CommandType.StoredProcedure; }
-                if (command.Connection.State != ConnectionState.Open) { command.Connection.Open(); }
-
-                foreach (var param in parameters)
-                {
-                    DbParameter dbParameter = command.CreateParameter();
-                    dbParameter.ParameterName = param.Key;
-                    if (!param.IsOut)
-                    {
-                        dbParameter.Value = param.Value;
-                    }
-                    else
-                    {
-                        dbParameter.Direction = ParameterDirection.Output;
-                        dbParameter.DbType = DbType.Int32;
-                    }
-                    command.Parameters.Add(dbParameter);
-                }
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var itemType = typeof(TEntity);
-                        var constructor = itemType.GetConstructor(new Type[] { });
-                        var instance = constructor.Invoke(new object[] { });
-                        var properties = itemType.GetProperties();
-
-                        foreach (var property in properties)
-                        {
-                            if (!reader.IsDBNull(property.Name))
-                                property.SetValue(instance, reader[property.Name]);
-                        }
-
-                        items.Add((TEntity)instance);
-                    }
-                }
-
-                totalCount = (int?)command.Parameters["TotalCount"].Value;
-                filteredCount = (int?)command.Parameters["FilteredCount"].Value;
-            }
-
-            return (items, totalCount ?? 0, filteredCount ?? 0);
-        }
         #endregion
     }
 }

@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace FarmFresh.Data
 {
@@ -73,8 +69,6 @@ namespace FarmFresh.Data
         #region SQL
         IList<TEntity> ExecuteSqlQuery(string sql, params object[] parameters);
         int ExecuteSqlCommand(string sql, params object[] parameters);
-        IList<dynamic> GetFromSql(string sql, Dictionary<string, object> parameters, bool isStoredProcedure = false);
-        (IList<TEntity> Items, int Total, int TotalFilter) GetFromSql(string sql, IList<(string Key, object Value, bool IsOut)> parameters, bool isStoredProcedure = true);
         #endregion
     }
 }
