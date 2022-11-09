@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FarmFresh.Data
+﻿namespace FarmFresh.Data
 {
     public abstract class IAuditableEntity<TKey> : IEntity<TKey>
     {
