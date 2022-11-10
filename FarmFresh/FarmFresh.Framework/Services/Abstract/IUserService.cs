@@ -4,6 +4,7 @@ namespace FarmFresh.Framework.Services.Abstract
 {
     public interface IUserService : IDisposable
     {
-        Task<User> GetUserAsync(string email);
+        Task<User> GetAsync(string email);
+        Task AddAsync(User user);
     }
 }

@@ -7,7 +7,7 @@ using FarmFresh.Framework.Services.Concrete;
 using FarmFresh.Framework.UnitOfWorks.Abstract;
 using FarmFresh.Framework.UnitOfWorks.Concrete;
 
-namespace EmailMarketing.Framework
+namespace FarmFresh.Framework
 {
     public class FrameworkModule : Module
     {

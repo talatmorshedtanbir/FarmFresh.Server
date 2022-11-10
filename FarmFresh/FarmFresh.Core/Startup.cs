@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using EmailMarketing.Framework;
 using FarmFresh.Core.Services.Abstract;
 using FarmFresh.Core.Services.Concrete;
+using FarmFresh.Framework;
 using FarmFresh.Framework.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -88,6 +88,10 @@ namespace FarmFresh.Core
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void IntializeSeedData(string connectionString)
+        {
         }
     }
 }
