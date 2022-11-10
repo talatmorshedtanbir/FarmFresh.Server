@@ -8,5 +8,6 @@
         public string Audience { get; }
         public string SecretKey { get; }
         public double ExpiryDuration { get; }
+        public string DatabaseConnectionString { get; }
     }
 }
