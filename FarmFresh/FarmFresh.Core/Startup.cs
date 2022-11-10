@@ -4,8 +4,11 @@ using FarmFresh.Core.Services.Abstract;
 using FarmFresh.Core.Services.Concrete;
 using FarmFresh.Framework;
 using FarmFresh.Framework.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using ConfigurationProvider = FarmFresh.Core.Providers.Concrete.ConfigurationProvider;
 using IConfigurationProvider = FarmFresh.Core.Providers.Abstract.IConfigurationProvider;
 
@@ -34,6 +37,36 @@ namespace FarmFresh.Core
         {
             var connectionString = new ConfigurationProvider().DatabaseConnectionString;
             var migrationAssemblyName = typeof(Startup).Assembly.FullName;
+
+            //Jwt Authentication
+            var configurationProvider = new ConfigurationProvider();
+            var secretKey = configurationProvider.SecretKey;
+            var issuer = configurationProvider.Issuer;
+            var audience = configurationProvider.Audience;
+
+            services.AddAuthentication(o =>
+            {
+                o.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddCookie()
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    options.RequireHttpsMetadata = false;
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = true,
+                        ValidAudience = audience,
+                        ValidateIssuer = true,
+                        ValidIssuer = issuer,
+
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                    };
+                });
+
+            services.AddCors();
 
             services.AddControllers();
             services.AddSwaggerGen();
@@ -81,6 +114,10 @@ namespace FarmFresh.Core
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseSwagger();
 

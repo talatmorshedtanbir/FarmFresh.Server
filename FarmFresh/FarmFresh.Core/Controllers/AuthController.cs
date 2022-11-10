@@ -28,7 +28,7 @@ namespace FarmFresh.Core.Controllers
         {
             try
             {
-                var isAuthenticated = await userService.AuthenticateUser(loginRequest);
+                var isAuthenticated = await userService.AuthenticateUserAsync(loginRequest);
 
                 if (isAuthenticated is true)
                 {

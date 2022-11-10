@@ -19,7 +19,7 @@ namespace FarmFresh.Core.Services.Concrete
             this.userService = userService;
         }
 
-        public async Task<bool> AuthenticateUser(LoginRequest loginRequest)
+        public async Task<bool> AuthenticateUserAsync(LoginRequest loginRequest)
         {
             var user = await userService.GetAsync(loginRequest.Email);
 
