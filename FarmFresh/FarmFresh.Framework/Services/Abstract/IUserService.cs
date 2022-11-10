@@ -6,5 +6,6 @@ namespace FarmFresh.Framework.Services.Abstract
     {
         Task<User> GetAsync(string email);
         Task AddAsync(User user);
+        Task AddRangeAsync(IList<User> users);
     }
 }

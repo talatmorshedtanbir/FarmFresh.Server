@@ -17,17 +17,9 @@ namespace FarmFresh.Core.Services.Concrete
 
         public async Task SeedUserData()
         {
-            var seedData = new UserSeeds(new PasswordHasher<User>());
+            var userSeeds = new UserSeeds(new PasswordHasher<User>());
 
-            //await userService
-            //context.Database.EnsureCreated();
-
-            //var user = context.User.FirstOrDefault();
-            //if (user == null)
-            //{
-            //    context.User.AddRange(seedData.GetUsers());
-            //}
-            //context.SaveChanges();
+            await userService.AddRangeAsync(userSeeds.GetUserSeeds());
         }
     }
 }

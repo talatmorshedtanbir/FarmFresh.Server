@@ -89,9 +89,5 @@ namespace FarmFresh.Core
                 endpoints.MapControllers();
             });
         }
-
-        public void IntializeSeedData(string connectionString)
-        {
-        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using FarmFresh.Core.Models.Requests;
 using FarmFresh.Core.Services.Abstract;
+using FarmFresh.Framework.Entities.Users;
 using FarmFresh.Framework.Services.Abstract;
+using Microsoft.AspNetCore.Identity;
 using IConfigurationProvider = FarmFresh.Core.Providers.Abstract.IConfigurationProvider;
 
 namespace FarmFresh.Core.Services.Concrete
@@ -19,9 +21,12 @@ namespace FarmFresh.Core.Services.Concrete
 
         public async Task<bool> AuthenticateUser(LoginRequest loginRequest)
         {
-            var user = await userService.GetUserAsync(loginRequest.Email);
+            var user = await userService.GetAsync(loginRequest.Email);
 
-            if (user is null || user.Password != loginRequest.Password)
+            var passwordHasher = new PasswordHasher<User>();
+
+            if (user is null ||
+                passwordHasher.VerifyHashedPassword(user, user.Password, loginRequest.Password) == PasswordVerificationResult.Failed)
             {
                 return false;
             }

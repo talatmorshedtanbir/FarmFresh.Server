@@ -1,4 +1,5 @@
-﻿using FarmFresh.Framework.Entities.Users;
+﻿using FarmFresh.Common.Exceptions;
+using FarmFresh.Framework.Entities.Users;
 using FarmFresh.Framework.Services.Abstract;
 using FarmFresh.Framework.UnitOfWorks.Abstract;
 
@@ -24,13 +25,35 @@ namespace FarmFresh.Framework.Services.Concrete
 
         public async Task AddAsync(User user)
         {
-            var isExists = await _userUnitOfWork.UserRepository.IsExistsAsync(x => x.Email == user.Email ||
+            var doesExist = await _userUnitOfWork.UserRepository.IsExistsAsync(x => x.Email == user.Email ||
                 x.Id != user.Id);
-            //if (isExists)
-            //    throw new DuplicationException(nameof(entity.Name));
+            if (doesExist)
+                throw new DuplicationException(nameof(user.Email));
 
-            //await _groupUnitOfWork.GroupRepository.AddAsync(entity);
-            //await _groupUnitOfWork.SaveChangesAsync();
+            await _userUnitOfWork.UserRepository.AddAsync(user);
+            await _userUnitOfWork.SaveChangesAsync();
+        }
+
+        public async Task AddRangeAsync(IList<User> users)
+        {
+            List<User> newUsers = new List<User>();
+
+            foreach (var user in users)
+            {
+                var doesExist = await _userUnitOfWork.UserRepository.IsExistsAsync(x => x.Email == user.Email ||
+                    x.Id != user.Id);
+
+                if (doesExist is false)
+                {
+                    newUsers.Add(user);
+                }
+            }
+
+            if (newUsers.Count > 0)
+            {
+                await _userUnitOfWork.UserRepository.AddRangeAsync(newUsers);
+                await _userUnitOfWork.SaveChangesAsync();
+            }
         }
 
         public void Dispose()

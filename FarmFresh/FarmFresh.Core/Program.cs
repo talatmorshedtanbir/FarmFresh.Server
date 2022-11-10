@@ -1,11 +1,15 @@
 using Autofac.Extensions.DependencyInjection;
+using FarmFresh.Core.Services.Concrete;
+using FarmFresh.Framework.Services.Abstract;
 using Serilog;
 
 namespace FarmFresh.Core
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static IServiceProvider ServiceProvider { get; private set; }
+
+        public static async Task Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
@@ -17,7 +21,12 @@ namespace FarmFresh.Core
             {
                 Log.Information($"Starting application...");
 
-                CreateHostBuilder(args).Build().Run();
+                var host = CreateHostBuilder(args).Build();
+
+                ServiceProvider = host.Services;
+                await InitializeSeedData();
+
+                host.Run();
             }
             catch (Exception ex)
             {
@@ -37,5 +46,13 @@ namespace FarmFresh.Core
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+
+        //Initialize seeder
+        public static async Task InitializeSeedData()
+        {
+            var dataSeederService = new DataSeederService(ServiceProvider.GetRequiredService<IUserService>());
+            await dataSeederService.SeedUserData();
+        }
     }
 }
