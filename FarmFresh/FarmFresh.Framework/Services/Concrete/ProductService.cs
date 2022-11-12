@@ -214,6 +214,7 @@ namespace FarmFresh.Framework.Services.Concrete
         public void Dispose()
         {
             _productUnitOfWork?.Dispose();
+            _productCategoryUnitOfWork?.Dispose();
         }
     }
 }
