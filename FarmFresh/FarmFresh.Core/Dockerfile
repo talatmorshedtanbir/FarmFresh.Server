@@ -8,6 +8,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["FarmFresh.Core/FarmFresh.Core.csproj", "FarmFresh.Core/"]
+COPY ["FarmFresh.Common/FarmFresh.Common.csproj", "FarmFresh.Common/"]
+COPY ["FarmFresh.Framework/FarmFresh.Framework.csproj", "FarmFresh.Framework/"]
+COPY ["FarmFresh.Data/FarmFresh.Data.csproj", "FarmFresh.Data/"]
 RUN dotnet restore "FarmFresh.Core/FarmFresh.Core.csproj"
 COPY . .
 WORKDIR "/src/FarmFresh.Core"
