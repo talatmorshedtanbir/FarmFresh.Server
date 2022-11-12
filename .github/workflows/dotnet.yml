@@ -2,10 +2,10 @@ name: .Net
 on:
   push:
     branches:
-    - dev
+    - develop
   pull_request:
     branches:
-    - dev
+    - develop
 jobs:
   build:
     runs-on: windows-2019
