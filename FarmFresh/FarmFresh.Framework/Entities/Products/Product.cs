@@ -8,7 +8,11 @@ namespace FarmFresh.Framework.Entities.Products
 {
     public class Product : IAuditableEntity<int>
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
+
+        public string SubTitle { get; set; }
+
+        public string KeyInformation { get; set; }
 
         public decimal Price { get; set; }
 
@@ -16,7 +20,7 @@ namespace FarmFresh.Framework.Entities.Products
 
         public string ImageBase64 { get; set; }
 
-        public bool IsFeatured { get; set; }
+        public string Country { get; set; }
 
         // Navigations Lazy Loading
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }

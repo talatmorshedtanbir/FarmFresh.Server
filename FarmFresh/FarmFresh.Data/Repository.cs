@@ -100,6 +100,11 @@ namespace FarmFresh.Data
             return result;
         }
 
+        public virtual async Task<IList<TEntity>> GetAllAsync()
+        {
+            return await _dbSet.ToListAsync();
+        }
+
         public virtual async Task<TEntity> GetByIdAsync(TKey id)
         {
             return await _dbSet.FindAsync(id);

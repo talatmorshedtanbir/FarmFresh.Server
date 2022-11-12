@@ -4,6 +4,7 @@ using FarmFresh.Framework.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmFresh.Core.Migrations.Framework
 {
     [DbContext(typeof(FrameworkContext))]
-    partial class FrameworkContextModelSnapshot : ModelSnapshot
+    [Migration("20221111194558_ProductTableUpdate")]
+    partial class ProductTableUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,9 +289,8 @@ namespace FarmFresh.Core.Migrations.Framework
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Country")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");

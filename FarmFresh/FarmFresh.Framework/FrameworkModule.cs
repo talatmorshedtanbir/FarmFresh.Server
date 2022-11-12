@@ -34,6 +34,13 @@ namespace FarmFresh.Framework
             builder.RegisterType<UserService>().As<IUserService>()
                    .InstancePerLifetimeScope();
 
+            builder.RegisterType<CategoryRepository>().As<ICategoryRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<CategoryUnitOfWork>().As<ICategoryUnitOfWork>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<CategoryService>().As<ICategoryService>()
+                   .InstancePerLifetimeScope();
+
             base.Load(builder);
         }
     }

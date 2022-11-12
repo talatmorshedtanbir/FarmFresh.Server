@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FarmFresh.Common\FarmFresh.Common.csproj" />
     <ProjectReference Include="..\FarmFresh.Framework\FarmFresh.Framework.csproj" />
   </ItemGroup>
 

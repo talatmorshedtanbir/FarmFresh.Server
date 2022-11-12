@@ -24,6 +24,8 @@ namespace FarmFresh.Data
                             Expression<Func<TEntity, bool>> predicate = null,
                             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
                             bool disableTracking = true);
+
+        Task<IList<TEntity>> GetAllAsync();
         Task<TEntity> GetByIdAsync(TKey id);
         Task<int> GetCountAsync(Expression<Func<TEntity, bool>> predicate = null);
         Task<bool> IsExistsAsync(Expression<Func<TEntity, bool>> predicate);
