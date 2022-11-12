@@ -3,6 +3,7 @@ using FarmFresh.Common.Extensions;
 using FarmFresh.Framework.Entities.Categories;
 using FarmFresh.Framework.Entities.Products;
 using FarmFresh.Framework.Models.Requests;
+using FarmFresh.Framework.Models.Responses;
 using FarmFresh.Framework.Services.Abstract;
 using FarmFresh.Framework.UnitOfWorks.Abstract;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ namespace FarmFresh.Framework.Services.Concrete
         }
 
 
-        public async Task<(IEnumerable<Product> Items, int Total, int TotalFilter)> GetAllAsync(
+        public async Task<(IEnumerable<ProductResponse> Items, int Total, int TotalFilter)> GetAllAsync(
             string searchText, string orderBy, int pageIndex, int pageSize)
         {
             var columnsMap = new Dictionary<string, Expression<Func<Product, object>>>()
@@ -37,19 +38,71 @@ namespace FarmFresh.Framework.Services.Concrete
                 x => x.Include(i => i.ProductCategories).ThenInclude(i => i.Category),
                 pageIndex, pageSize, disableTracking: true);
 
-            return (result.Items, result.Total, result.TotalFilter);
+            var productResponses = (from item in result.Items
+                                    select new ProductResponse
+                                    {
+                                        Categories = item.ProductCategories.Select(x => new CategoryResponse
+                                        {
+                                            Id = x.Category.Id,
+                                            CategoryName = x.Category.CategoryName
+                                        }).ToList(),
+                                        Title = item.Title,
+                                        SubTitle = item.SubTitle,
+                                        Description = item.Description,
+                                        Country = item.Country,
+                                        KeyInformation = item.KeyInformation,
+                                        IsActive = item.IsActive,
+                                        Price = item.Price,
+                                        ImageBase64 = item.ImageBase64,
+                                        Created = item.Created,
+                                        LastModified = item.LastModified,
+                                        Id = item.Id
+                                    }).ToList();
+
+            return (productResponses, result.Total, result.TotalFilter);
         }
 
-        public async Task<Product> GetByIdAsync(int id)
+        public async Task<ProductResponse> GetByIdAsync(int id)
         {
-            return await _productUnitOfWork.ProductRepository.GetByIdAsync(id);
+            var product = await _productUnitOfWork.ProductRepository.GetFirstOrDefaultAsync(
+                x => x,
+                x => x.Id == id,
+                x => x.Include(i => i.ProductCategories)
+                .ThenInclude(i => i.Category));
+
+            if (product == null)
+            {
+                throw new NotFoundException(nameof(Product), id);
+            }
+
+            var productResponse = new ProductResponse
+            {
+                Categories = product.ProductCategories.Select(x => new CategoryResponse
+                {
+                    Id = x.Category.Id,
+                    CategoryName = x.Category.CategoryName
+                }).ToList(),
+                Title = product.Title,
+                SubTitle = product.SubTitle,
+                Description = product.Description,
+                Country = product.Country,
+                KeyInformation = product.KeyInformation,
+                IsActive = product.IsActive,
+                Price = product.Price,
+                ImageBase64 = product.ImageBase64,
+                Created = product.Created,
+                LastModified = product.LastModified,
+                Id = product.Id
+            };
+
+            return productResponse;
         }
 
         public async Task AddAsync(AddProductRequest productRequest)
         {
             if (productRequest is null)
             {
-                throw new NullRequestException(nameof(productRequest));
+                throw new NullRequestException(nameof(AddProductRequest));
             }
 
             var isExists = await _productUnitOfWork.ProductRepository.IsExistsAsync(
@@ -57,7 +110,7 @@ namespace FarmFresh.Framework.Services.Concrete
 
             if (isExists)
             {
-                throw new DuplicationException(nameof(productRequest));
+                throw new DuplicationException(nameof(Product));
             }
 
             var productToAdd = new Product
@@ -103,14 +156,14 @@ namespace FarmFresh.Framework.Services.Concrete
         {
             if (updateProductRequest is null)
             {
-                throw new NullRequestException(nameof(updateProductRequest));
+                throw new NullRequestException(nameof(UpdateProductRequest));
             }
 
             var productToUpdate = await _productUnitOfWork.ProductRepository.GetByIdAsync(updateProductRequest.Id);
 
             if (productToUpdate is null)
             {
-                throw new NotFoundException(nameof(productToUpdate), nameof(updateProductRequest.Id));
+                throw new NotFoundException(nameof(UpdateProductRequest), nameof(updateProductRequest.Id));
             }
 
             productToUpdate.Price = updateProductRequest.Price;

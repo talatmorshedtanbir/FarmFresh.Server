@@ -1,14 +1,14 @@
-﻿using FarmFresh.Framework.Entities.Products;
-using FarmFresh.Framework.Models.Requests;
+﻿using FarmFresh.Framework.Models.Requests;
+using FarmFresh.Framework.Models.Responses;
 
 namespace FarmFresh.Framework.Services.Abstract
 {
     public interface IProductService : IDisposable
     {
-        Task<(IEnumerable<Product> Items, int Total, int TotalFilter)> GetAllAsync(
+        Task<(IEnumerable<ProductResponse> Items, int Total, int TotalFilter)> GetAllAsync(
             string searchText, string orderBy, int pageIndex, int pageSize);
 
-        Task<Product> GetByIdAsync(int id);
+        Task<ProductResponse> GetByIdAsync(int id);
 
         Task AddAsync(AddProductRequest productRequest);
 

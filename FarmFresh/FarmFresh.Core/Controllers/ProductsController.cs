@@ -38,23 +38,7 @@ namespace FarmFresh.Core.Controllers
 
                 return Ok(new
                 {
-                    products = (from item in products.Items
-                                select new
-                                {
-                                    Categories = string.Join(", ", item.ProductCategories.Select(x => x.Category.CategoryName)),
-                                    Title = item.Title,
-                                    SubTitle = item.SubTitle,
-                                    Description = item.Description,
-                                    Country = item.Country,
-                                    KeyInformation = item.KeyInformation,
-                                    IsActive = item.IsActive,
-                                    Price = item.Price,
-                                    ImageBase64 = item.ImageBase64,
-                                    Created = item.Created,
-                                    LastModified = item.LastModified,
-                                    Id = item.Id
-                                }).ToList(),
-
+                    products = products.Items.ToList(),
                     pagingInfo = pagingInfo
                 });
             }
