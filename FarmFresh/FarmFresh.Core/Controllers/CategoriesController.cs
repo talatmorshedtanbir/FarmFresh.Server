@@ -74,7 +74,6 @@ namespace FarmFresh.Core.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add([FromBody] AddCategoryRequest categoryRequest)
         {
             try
@@ -100,7 +99,6 @@ namespace FarmFresh.Core.Controllers
         }
 
         [HttpPut]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(UpdateCategoryRequest updateCategoryRequest)
         {
             try
@@ -126,7 +124,6 @@ namespace FarmFresh.Core.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             try
