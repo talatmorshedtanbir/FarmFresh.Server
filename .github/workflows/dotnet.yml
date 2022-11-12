@@ -1,26 +1,23 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
-
+name: .Net
 on:
   push:
-    branches: [ "develop" ]
+    branches:
+    - dev
   pull_request:
-    branches: [ "develop" ]
-
+    branches:
+    - dev
 jobs:
   build:
-
     runs-on: windows-2019
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - name: Check Out
+      uses: actions/checkout@v2
+    - name: Setup Dot Net Version
+      uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-    - name: Restore dependencies
+        include-prerelease: true
+    - name: Restore
       run: dotnet restore ./FarmFresh/FarmFresh.sln
     - name: Build
       run: dotnet build ./FarmFresh/FarmFresh.sln --no-restore
