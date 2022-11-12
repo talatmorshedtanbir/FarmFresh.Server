@@ -56,7 +56,7 @@ namespace FarmFresh.Core.Controllers
 
                 var result = new
                 {
-                    Message = "Unauthenticated."
+                    Result = "Unauthenticated."
                 };
 
                 return Unauthorized(result);
@@ -67,7 +67,7 @@ namespace FarmFresh.Core.Controllers
 
                 var result = new
                 {
-                    Message = "Failed to authenticated user."
+                    Result = "Failed to authenticated user."
                 };
 
                 return BadRequest(result);

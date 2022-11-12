@@ -33,6 +33,11 @@ namespace FarmFresh.Framework.Services.Concrete
             return (result.Items, result.Total, result.TotalFilter);
         }
 
+        public async Task<Category> GetByIdAsync(int id)
+        {
+            return await _categoryUnitOfWork.CategoryRepository.GetByIdAsync(id);
+        }
+
         public async Task AddAsync(AddCategoryRequest categoryRequest)
         {
             if (categoryRequest is null)
@@ -44,7 +49,9 @@ namespace FarmFresh.Framework.Services.Concrete
                 x => x.CategoryName == categoryRequest.CategoryName);
 
             if (isExists)
-                throw new DuplicationException(nameof(categoryRequest.CategoryName));
+            {
+                throw new DuplicationException(nameof(categoryRequest));
+            }
 
             var categoryToAdd = new Category
             {
@@ -53,11 +60,6 @@ namespace FarmFresh.Framework.Services.Concrete
 
             await _categoryUnitOfWork.CategoryRepository.AddAsync(categoryToAdd);
             await _categoryUnitOfWork.SaveChangesAsync();
-        }
-
-        public async Task<Category> GetByIdAsync(int id)
-        {
-            return await _categoryUnitOfWork.CategoryRepository.GetByIdAsync(id);
         }
 
         public async Task UpdateAsync(UpdateCategoryRequest categoryRequest)

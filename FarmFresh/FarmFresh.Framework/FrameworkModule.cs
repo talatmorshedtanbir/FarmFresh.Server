@@ -41,6 +41,18 @@ namespace FarmFresh.Framework
             builder.RegisterType<CategoryService>().As<ICategoryService>()
                    .InstancePerLifetimeScope();
 
+            builder.RegisterType<ProductRepository>().As<IProductRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<ProductUnitOfWork>().As<IProductUnitOfWork>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<ProductService>().As<IProductService>()
+                   .InstancePerLifetimeScope();
+
+            builder.RegisterType<ProductCategoryRepository>().As<IProductCategoryRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<ProductCategoryUnitOfWork>().As<IProductCategoryUnitOfWork>()
+                   .InstancePerLifetimeScope();
+
             base.Load(builder);
         }
     }

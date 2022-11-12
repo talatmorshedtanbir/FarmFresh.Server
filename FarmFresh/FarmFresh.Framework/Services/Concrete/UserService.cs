@@ -7,7 +7,7 @@ namespace FarmFresh.Framework.Services.Concrete
 {
     public class UserService : IUserService
     {
-        private IUserUnitOfWork _userUnitOfWork;
+        private readonly IUserUnitOfWork _userUnitOfWork;
 
         public UserService(IUserUnitOfWork userUnitOfWork)
         {
