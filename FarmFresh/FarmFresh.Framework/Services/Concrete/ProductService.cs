@@ -1,4 +1,6 @@
-﻿using FarmFresh.Framework.Entities.Products;
+﻿using FarmFresh.Common.Exceptions;
+using FarmFresh.Framework.Entities.Products;
+using FarmFresh.Framework.Models.Requests;
 using FarmFresh.Framework.Services.Abstract;
 using FarmFresh.Framework.UnitOfWorks.Abstract;
 
@@ -18,41 +20,58 @@ namespace FarmFresh.Framework.Services.Concrete
             return await _productUnitOfWork.ProductRepository.GetAllAsync();
         }
 
-        public async Task UpdateAsync(Product product)
+        public async Task AddAsync(AddProductRequest productRequest)
         {
-            var productToUpdate = await _productUnitOfWork.ProductRepository.GetByIdAsync(product.Id);
+            if (productRequest is null)
+            {
+                throw new NullRequestException(nameof(productRequest));
+            }
+
+            var productToAdd = new Product
+            {
+                Title = productRequest.Title,
+                Country = productRequest.Country,
+                SubTitle = productRequest.SubTitle,
+                Description = productRequest.Description,
+                Created = DateTime.Now,
+                ImageBase64 = productRequest.ImageBase64,
+                KeyInformation = productRequest.KeyInformation,
+                IsActive = true,
+                IsDeleted = false,
+                Price = productRequest.Price,
+            };
+
+            await _productUnitOfWork.ProductRepository.AddAsync(productToAdd);
+            await _productUnitOfWork.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(UpdateProductRequest updateProductRequest)
+        {
+            if (updateProductRequest is null)
+            {
+                throw new NullRequestException(nameof(updateProductRequest));
+            }
+
+            var productToUpdate = await _productUnitOfWork.ProductRepository.GetByIdAsync(updateProductRequest.Id);
+
+            if (productToUpdate is null)
+            {
+                throw new NotFoundException(nameof(productToUpdate), nameof(updateProductRequest.Id));
+            }
 
             if (productToUpdate is not null)
             {
-                productToUpdate.Price = product.Price;
+                productToUpdate.Price = updateProductRequest.Price;
                 productToUpdate.LastModified = DateTime.Now;
-                productToUpdate.SubTitle = product.SubTitle;
-                productToUpdate.Title = product.Title;
-                productToUpdate.Country = product.Country;
-                productToUpdate.Description = product.Description;
-                productToUpdate.KeyInformation = product.KeyInformation;
+                productToUpdate.SubTitle = updateProductRequest.SubTitle;
+                productToUpdate.Title = updateProductRequest.Title;
+                productToUpdate.Country = updateProductRequest.Country;
+                productToUpdate.Description = updateProductRequest.Description;
+                productToUpdate.KeyInformation = updateProductRequest.KeyInformation;
                 productToUpdate.ImageBase64 = productToUpdate.ImageBase64;
                 productToUpdate.IsActive = productToUpdate.IsActive;
 
                 await _productUnitOfWork.ProductRepository.UpdateAsync(productToUpdate);
-            }
-            else
-            {
-                var productToAdd = new Product
-                {
-                    Title = product.Title,
-                    Country = product.Country,
-                    SubTitle = product.SubTitle,
-                    Description = product.Description,
-                    Created = DateTime.Now,
-                    ImageBase64 = product.ImageBase64,
-                    KeyInformation = product.KeyInformation,
-                    IsActive = true,
-                    IsDeleted = false,
-                    Price = product.Price,
-                };
-
-                await _productUnitOfWork.ProductRepository.AddAsync(productToAdd);
             }
 
             await _productUnitOfWork.SaveChangesAsync();
@@ -63,6 +82,5 @@ namespace FarmFresh.Framework.Services.Concrete
         {
             _productUnitOfWork?.Dispose();
         }
-
     }
 }

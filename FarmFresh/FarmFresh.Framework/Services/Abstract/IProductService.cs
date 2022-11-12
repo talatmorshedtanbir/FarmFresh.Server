@@ -1,4 +1,5 @@
 ﻿using FarmFresh.Framework.Entities.Products;
+using FarmFresh.Framework.Models.Requests;
 
 namespace FarmFresh.Framework.Services.Abstract
 {
@@ -6,6 +7,8 @@ namespace FarmFresh.Framework.Services.Abstract
     {
         Task<IEnumerable<Product>> GetAllAsync();
 
-        Task UpdateAsync(Product product);
+        Task AddAsync(AddProductRequest productRequest);
+
+        Task UpdateAsync(UpdateProductRequest updateProductRequest);
     }
 }

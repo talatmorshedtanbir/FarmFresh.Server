@@ -20,7 +20,7 @@ namespace FarmFresh.Framework.Entities.Products
 
         public string ImageBase64 { get; set; }
 
-        public bool Country { get; set; }
+        public string Country { get; set; }
 
         // Navigations Lazy Loading
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
