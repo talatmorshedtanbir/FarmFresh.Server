@@ -21,7 +21,7 @@ namespace FarmFresh.Core.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] CategoryFilter categoryFilter)
+        public async Task<IActionResult> Get([FromQuery] CategoriesFilter categoryFilter)
         {
             try
             {

@@ -2,6 +2,7 @@
 using FarmFresh.Framework.Context;
 using FarmFresh.Framework.Entities.Products;
 using FarmFresh.Framework.Repositories.Abstract;
+using Microsoft.EntityFrameworkCore;
 
 namespace FarmFresh.Framework.Repositories.Concrete
 {
@@ -11,6 +12,11 @@ namespace FarmFresh.Framework.Repositories.Concrete
             : base(dbContext)
         {
 
+        }
+
+        public async Task<Product> GetAsync(string title)
+        {
+            return await _dbSet.FirstOrDefaultAsync(x => x.Title == title);
         }
     }
 }

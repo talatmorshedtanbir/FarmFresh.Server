@@ -33,18 +33,25 @@ namespace FarmFresh.Framework.Services.Concrete
             return (result.Items, result.Total, result.TotalFilter);
         }
 
+        public async Task<Category> GetByIdAsync(int id)
+        {
+            return await _categoryUnitOfWork.CategoryRepository.GetByIdAsync(id);
+        }
+
         public async Task AddAsync(AddCategoryRequest categoryRequest)
         {
             if (categoryRequest is null)
             {
-                throw new NullRequestException(nameof(categoryRequest));
+                throw new NullRequestException(nameof(AddCategoryRequest));
             }
 
             var isExists = await _categoryUnitOfWork.CategoryRepository.IsExistsAsync(
                 x => x.CategoryName == categoryRequest.CategoryName);
 
             if (isExists)
-                throw new DuplicationException(nameof(categoryRequest.CategoryName));
+            {
+                throw new DuplicationException(nameof(Category));
+            }
 
             var categoryToAdd = new Category
             {
@@ -55,23 +62,20 @@ namespace FarmFresh.Framework.Services.Concrete
             await _categoryUnitOfWork.SaveChangesAsync();
         }
 
-        public async Task<Category> GetByIdAsync(int id)
-        {
-            return await _categoryUnitOfWork.CategoryRepository.GetByIdAsync(id);
-        }
-
         public async Task UpdateAsync(UpdateCategoryRequest categoryRequest)
         {
             if (categoryRequest is null)
             {
-                throw new NullRequestException(nameof(categoryRequest));
+                throw new NullRequestException(nameof(UpdateCategoryRequest));
             }
 
             var isExists = await _categoryUnitOfWork.CategoryRepository.IsExistsAsync(
                 x => x.CategoryName == categoryRequest.CategoryName);
 
             if (isExists)
-                throw new DuplicationException(nameof(categoryRequest.CategoryName));
+            {
+                throw new DuplicationException(nameof(Category));
+            }
 
             var categoryToUpdate = await GetByIdAsync(categoryRequest.Id);
 
@@ -83,14 +87,7 @@ namespace FarmFresh.Framework.Services.Concrete
 
         public async Task DeleteAsync(int id)
         {
-            var categoryToDelete = await _categoryUnitOfWork.CategoryRepository.GetByIdAsync(id);
-
-            if (categoryToDelete is null)
-            {
-                throw new NotFoundException(nameof(Category), nameof(id));
-            }
-
-            await _categoryUnitOfWork.CategoryRepository.DeleteAsync(categoryToDelete);
+            await _categoryUnitOfWork.CategoryRepository.DeleteAsync(x => x.Id == id);
             await _categoryUnitOfWork.SaveChangesAsync();
         }
 

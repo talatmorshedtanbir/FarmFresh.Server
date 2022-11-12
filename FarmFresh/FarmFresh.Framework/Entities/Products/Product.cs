@@ -22,6 +22,8 @@ namespace FarmFresh.Framework.Entities.Products
 
         public string Country { get; set; }
 
+        public bool IsActive { get; set; }
+
         // Navigations Lazy Loading
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
 
