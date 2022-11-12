@@ -38,6 +38,7 @@ namespace FarmFresh.Framework.DataSeeds
                         Created = DateTime.Now,
                         IsActive = true,
                         IsDeleted = false,
+                        Phone = "+8801817316436"
                     },
                     new User
                     {
@@ -47,6 +48,7 @@ namespace FarmFresh.Framework.DataSeeds
                         Created = DateTime.Now,
                         IsActive = true,
                         IsDeleted = false,
+                        Phone = "+8801817316436"
                     }
                 };
             }
