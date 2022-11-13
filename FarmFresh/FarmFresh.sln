@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmFresh.Framework", "Farm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmFresh.Common", "FarmFresh.Common\FarmFresh.Common.csproj", "{D6E9AF7C-FAC3-4737-9DF1-A03C47755092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmFresh.Insfrastructure.Build", "FarmFresh.Insfrastructure.Build\FarmFresh.Insfrastructure.Build.csproj", "{6958FED2-E123-4FED-91BC-E4E67CAD3829}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmFresh.Insfrastructure.Build", "FarmFresh.Insfrastructure.Build\FarmFresh.Insfrastructure.Build.csproj", "{6958FED2-E123-4FED-91BC-E4E67CAD3829}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{098BA273-FF14-4834-AB47-C79C7FEBFC8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmFresh.Framework.Tests.Unit", "Tests\FarmFresh.Framework.Tests.Unit\FarmFresh.Framework.Tests.Unit.csproj", "{D1E3B6DE-DC9F-48FF-8DAB-6CCF5397B039}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,16 @@ Global
 		{6958FED2-E123-4FED-91BC-E4E67CAD3829}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6958FED2-E123-4FED-91BC-E4E67CAD3829}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6958FED2-E123-4FED-91BC-E4E67CAD3829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1E3B6DE-DC9F-48FF-8DAB-6CCF5397B039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1E3B6DE-DC9F-48FF-8DAB-6CCF5397B039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1E3B6DE-DC9F-48FF-8DAB-6CCF5397B039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1E3B6DE-DC9F-48FF-8DAB-6CCF5397B039}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D1E3B6DE-DC9F-48FF-8DAB-6CCF5397B039} = {098BA273-FF14-4834-AB47-C79C7FEBFC8A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3A807DF-3D51-4606-B15F-3F6BA2B00A24}
