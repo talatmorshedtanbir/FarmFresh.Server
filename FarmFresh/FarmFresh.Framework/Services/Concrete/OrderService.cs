@@ -109,18 +109,21 @@ namespace FarmFresh.Framework.Services.Concrete
             await _orderUnitOfWork.OrderRepository.AddAsync(newOrder);
             await _orderUnitOfWork.SaveChangesAsync();
 
-            var newOrderItems = new List<OrderItem>(
-                cartItems.Select(item =>
-                new OrderItem
-                {
-                    ProductId = item.ProductId,
-                    Cost = item.Cost,
-                    Quantity = item.Quantity,
-                    OrderId = newOrder.Id
-                }).ToList());
+            if (cartItems is not null && cartItems.Any())
+            {
+                var newOrderItems = new List<OrderItem>(
+                    cartItems.Select(item =>
+                    new OrderItem
+                    {
+                        ProductId = item.ProductId,
+                        Cost = item.Cost,
+                        Quantity = item.Quantity,
+                        OrderId = newOrder.Id
+                    }).ToList());
 
-            await _orderItemUnitOfWork.OrderItemRepository.AddRangeAsync(newOrderItems);
-            await _orderItemUnitOfWork.SaveChangesAsync();
+                await _orderItemUnitOfWork.OrderItemRepository.AddRangeAsync(newOrderItems);
+                await _orderItemUnitOfWork.SaveChangesAsync();
+            }
 
             var newCustomerOrders = new CustomerOrder
             {

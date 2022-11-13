@@ -53,13 +53,6 @@ namespace FarmFresh.Framework
             builder.RegisterType<ProductCategoryUnitOfWork>().As<IProductCategoryUnitOfWork>()
                    .InstancePerLifetimeScope();
 
-            builder.RegisterType<CartRepository>().As<ICartRepository>()
-                .InstancePerLifetimeScope();
-            builder.RegisterType<CartUnitOfWork>().As<ICartUnitOfWork>()
-                   .InstancePerLifetimeScope();
-            builder.RegisterType<CartService>().As<ICartService>()
-                .InstancePerLifetimeScope();
-
             builder.RegisterType<CartItemRepository>().As<ICartItemRepository>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<CartItemUnitOfWork>().As<ICartItemUnitOfWork>()
@@ -70,11 +63,11 @@ namespace FarmFresh.Framework
             builder.RegisterType<CustomerCartUnitOfWork>().As<ICustomerCartUnitOfWork>()
                    .InstancePerLifetimeScope();
 
-            builder.RegisterType<OrderRepository>().As<IOrderRepository>()
+            builder.RegisterType<CartRepository>().As<ICartRepository>()
                 .InstancePerLifetimeScope();
-            builder.RegisterType<OrderUnitOfWork>().As<IOrderUnitOfWork>()
+            builder.RegisterType<CartUnitOfWork>().As<ICartUnitOfWork>()
                    .InstancePerLifetimeScope();
-            builder.RegisterType<OrderService>().As<IOrderService>()
+            builder.RegisterType<CartService>().As<ICartService>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<OrderItemRepository>().As<OrderItemRepository>()
@@ -86,6 +79,13 @@ namespace FarmFresh.Framework
                 .InstancePerLifetimeScope();
             builder.RegisterType<CustomerOrderUnitOfWork>().As<ICustomerOrderUnitOfWork>()
                    .InstancePerLifetimeScope();
+
+            builder.RegisterType<OrderRepository>().As<IOrderRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<OrderUnitOfWork>().As<IOrderUnitOfWork>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<OrderService>().As<IOrderService>()
+                .InstancePerLifetimeScope();
 
             base.Load(builder);
         }
