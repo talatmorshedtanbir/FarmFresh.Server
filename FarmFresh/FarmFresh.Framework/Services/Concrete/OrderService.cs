@@ -70,6 +70,72 @@ namespace FarmFresh.Framework.Services.Concrete
             return customerOrders;
         }
 
+        public async Task<int> PlaceOrderAsync(string customerEmail,
+            string customerPhone,
+            string address)
+        {
+            var cartItems = await _cartService.GetCustomerCartItemsAsync(customerEmail);
+
+            var customer = await _userService.GetAsync(customerEmail);
+
+            if (customer is null)
+            {
+                throw new NotFoundException(nameof(User), nameof(customerEmail));
+            }
+
+
+            decimal cost = 0;
+            List<string> productIds = new List<string>();
+
+            foreach (var item in cartItems)
+            {
+                cost += item.Cost * item.Quantity;
+
+                productIds.AddRange(
+                    Enumerable.Repeat(
+                        item.ProductId.ToString(),
+                    item.Quantity).ToList());
+            }
+
+            var newOrder = new Order
+            {
+
+                Phone = customerPhone,
+                Created = DateTime.Now,
+                Address = address,
+                TotalCost = cost
+            };
+
+            await _orderUnitOfWork.OrderRepository.AddAsync(newOrder);
+            await _orderUnitOfWork.SaveChangesAsync();
+
+            var newOrderItems = new List<OrderItem>(
+                cartItems.Select(item =>
+                new OrderItem
+                {
+                    ProductId = item.ProductId,
+                    Cost = item.Cost,
+                    Quantity = item.Quantity,
+                    OrderId = newOrder.Id
+                }).ToList());
+
+            await _orderItemUnitOfWork.OrderItemRepository.AddRangeAsync(newOrderItems);
+            await _orderItemUnitOfWork.SaveChangesAsync();
+
+            var newCustomerOrders = new CustomerOrder
+            {
+                CustomerId = customer.Id,
+                OrderId = newOrder.Id
+            };
+
+            await _customerOrderUnitOfWork.CustomerOrderRepository.AddAsync(newCustomerOrders);
+            await _customerOrderUnitOfWork.SaveChangesAsync();
+
+            await _cartService.EmptyCartAsync(customerEmail);
+
+            return newOrder.Id;
+        }
+
         public void Dispose()
         {
             _orderUnitOfWork?.Dispose();

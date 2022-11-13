@@ -9,5 +9,9 @@ namespace FarmFresh.Framework.Services.Abstract
         Task<CustomerOrder> GetCustomerOrderAsync(string customerEmail, int orderId);
 
         Task<IEnumerable<Order>> GetCustomerOrdersAsync(string customerEmail);
+
+        Task<int> PlaceOrderAsync(string customerEmail,
+            string customerPhone,
+            string address);
     }
 }
