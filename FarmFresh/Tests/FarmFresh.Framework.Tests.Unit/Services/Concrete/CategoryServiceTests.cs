@@ -62,7 +62,7 @@ namespace FarmFresh.Framework.Tests.Unit.Services.Concrete
             return categoryRequest;
         }
 
-        public UpdateCategoryRequest CreateCategoryUpdateRequestDto(Category category)
+        public UpdateCategoryRequest CreateCategoryUpdateRequest(Category category)
         {
             var categoryRequest = new UpdateCategoryRequest
             {

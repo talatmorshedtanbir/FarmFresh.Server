@@ -86,6 +86,11 @@ namespace FarmFresh.Framework.Services.Concrete
 
             var categoryToUpdate = await GetByIdAsync(categoryRequest.Id);
 
+            if (categoryToUpdate is null)
+            {
+                throw new NotFoundException(nameof(categoryToUpdate), nameof(categoryToUpdate.Id));
+            }
+
             categoryToUpdate.CategoryName = categoryRequest.CategoryName;
 
             await _categoryUnitOfWork.CategoryRepository.UpdateAsync(categoryToUpdate);

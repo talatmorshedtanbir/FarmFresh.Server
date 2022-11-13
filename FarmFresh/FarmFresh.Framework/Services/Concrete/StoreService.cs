@@ -89,6 +89,11 @@ namespace FarmFresh.Framework.Services.Concrete
 
             var storeToUpdate = await GetByIdAsync(storeRequest.Id);
 
+            if (storeToUpdate is null)
+            {
+                throw new NotFoundException(nameof(storeToUpdate), nameof(storeToUpdate.Id));
+            }
+
             storeToUpdate.Name = storeRequest.Name;
             storeToUpdate.Location = storeRequest.Location;
             storeToUpdate.LastModifiedBy = storeRequest.LastModifiedBy;
