@@ -53,6 +53,23 @@ namespace FarmFresh.Framework
             builder.RegisterType<ProductCategoryUnitOfWork>().As<IProductCategoryUnitOfWork>()
                    .InstancePerLifetimeScope();
 
+            builder.RegisterType<CartRepository>().As<ICartRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<CartUnitOfWork>().As<ICartUnitOfWork>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<CartService>().As<ICartService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<CartItemRepository>().As<ICartItemRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<CartItemUnitOfWork>().As<ICartItemUnitOfWork>()
+                   .InstancePerLifetimeScope();
+
+            builder.RegisterType<CustomerCartRepository>().As<ICustomerCartRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<CustomerCartUnitOfWork>().As<ICustomerCartUnitOfWork>()
+                   .InstancePerLifetimeScope();
+
             base.Load(builder);
         }
     }
