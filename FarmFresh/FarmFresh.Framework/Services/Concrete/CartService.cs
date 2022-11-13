@@ -195,6 +195,7 @@ namespace FarmFresh.Framework.Services.Concrete
         {
             _cartUnitOfWork?.Dispose();
             _cartItemUnitOfWork?.Dispose();
+            _customerCartUnitOfWork?.Dispose();
         }
     }
 }
