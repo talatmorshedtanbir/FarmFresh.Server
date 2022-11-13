@@ -70,7 +70,7 @@ namespace FarmFresh.Framework
             builder.RegisterType<CartService>().As<ICartService>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<OrderItemRepository>().As<OrderItemRepository>()
+            builder.RegisterType<OrderItemRepository>().As<IOrderItemRepository>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<OrderItemUnitOfWork>().As<IOrderItemUnitOfWork>()
                    .InstancePerLifetimeScope();

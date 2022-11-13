@@ -204,13 +204,22 @@ namespace FarmFresh.Framework.Services.Concrete
                 x => x,
                 x => x.CustomerId == customer.Id);
 
+            if (customerCart is null)
+            {
+                return;
+            }
+
             await _cartItemUnitOfWork.CartItemRepository.DeleteAsync(x => x.CartId == customerCart.Id);
             await _cartItemUnitOfWork.SaveChangesAsync();
 
-            customerCart.Cart.TotalCost = 0;
+            if (customerCart.Cart is not null)
+            {
+                customerCart.Cart.TotalCost = 0;
 
-            await _customerCartUnitOfWork.CustomerCartRepository.UpdateAsync(customerCart);
-            await _customerCartUnitOfWork.SaveChangesAsync();
+                await _customerCartUnitOfWork.CustomerCartRepository.UpdateAsync(customerCart);
+                await _customerCartUnitOfWork.SaveChangesAsync();
+            }
+
         }
 
         public void Dispose()

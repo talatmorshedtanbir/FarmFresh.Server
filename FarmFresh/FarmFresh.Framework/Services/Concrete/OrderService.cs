@@ -29,8 +29,14 @@ namespace FarmFresh.Framework.Services.Concrete
 
         public async Task<IEnumerable<OrderItem>> GetOrderItemsAsync(int orderId)
         {
+            IEnumerable<OrderItem> orderItems = new List<OrderItem>();
+
             var order = await _orderUnitOfWork.OrderRepository.GetByIdAsync(orderId);
-            var orderItems = order.OrderItems.AsEnumerable();
+
+            if (order is not null)
+            {
+                orderItems = order.OrderItems.ToList();
+            }
 
             return orderItems;
         }
