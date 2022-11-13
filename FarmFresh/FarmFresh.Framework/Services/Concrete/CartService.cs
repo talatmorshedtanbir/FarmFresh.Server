@@ -177,24 +177,56 @@ namespace FarmFresh.Framework.Services.Concrete
             }
             else
             {
-                // If one item, remove and decrease totals
-                customerCart.Cart.TotalCost -= product.Price;
-
                 if (existingCartItem is not null)
                 {
                     await _cartItemUnitOfWork.CartItemRepository.DeleteAsync(existingCartItem);
                 }
 
+                customerCart.Cart.TotalCost -= product.Price;
+
+                await _customerCartUnitOfWork.CustomerCartRepository.UpdateAsync(customerCart);
                 await _customerCartUnitOfWork.SaveChangesAsync();
             }
 
             await _cartItemUnitOfWork.SaveChangesAsync();
         }
 
+        public async Task EmptyCartAsync(string customerEmail)
+        {
+            var customer = await _userService.GetAsync(customerEmail);
+
+            if (customer is null)
+            {
+                throw new NotFoundException(nameof(User), nameof(customerEmail));
+            }
+
+            var customerCart = await _customerCartUnitOfWork.CustomerCartRepository.GetFirstOrDefaultAsync(
+                x => x,
+                x => x.CustomerId == customer.Id);
+
+            if (customerCart is null)
+            {
+                return;
+            }
+
+            await _cartItemUnitOfWork.CartItemRepository.DeleteAsync(x => x.CartId == customerCart.Id);
+            await _cartItemUnitOfWork.SaveChangesAsync();
+
+            if (customerCart.Cart is not null)
+            {
+                customerCart.Cart.TotalCost = 0;
+
+                await _customerCartUnitOfWork.CustomerCartRepository.UpdateAsync(customerCart);
+                await _customerCartUnitOfWork.SaveChangesAsync();
+            }
+
+        }
+
         public void Dispose()
         {
             _cartUnitOfWork?.Dispose();
             _cartItemUnitOfWork?.Dispose();
+            _customerCartUnitOfWork?.Dispose();
         }
     }
 }

@@ -13,5 +13,7 @@ namespace FarmFresh.Framework.Services.Abstract
         Task AddCartAsync(string customerEmail);
 
         Task DeleteCartItemAsync(string customerEmail, int productId);
+
+        Task EmptyCartAsync(string customerEmail);
     }
 }

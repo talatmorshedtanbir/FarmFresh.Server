@@ -18,9 +18,7 @@ namespace FarmFresh.Framework.Services.Concrete
         {
             return await _userUnitOfWork.UserRepository.GetFirstOrDefaultAsync(
                 x => x,
-                x => x.Email == email,
-                null,
-                true);
+                x => x.Email == email);
         }
 
         public async Task AddAsync(User user)
