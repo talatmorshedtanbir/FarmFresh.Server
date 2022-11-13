@@ -10,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace FarmFresh.Framework.Tests.Unit.Services.Concrete
 {
     [ExcludeFromCodeCoverage]
-    public class CategoryServiceTests
+    public partial class CategoryServiceTests
     {
         private readonly ICategoryService _categoryService;
         private readonly Mock<ICategoryUnitOfWork> _categoryUnitOfWorkMock;
