@@ -34,7 +34,7 @@ namespace FarmFresh.Framework.Services.Concrete
 
         public async Task AddRangeAsync(IList<User> users)
         {
-            List<User> newUsers = new List<User>();
+            IList<User> newUsers = new List<User>();
 
             foreach (var user in users)
             {
