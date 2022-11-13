@@ -78,7 +78,7 @@ namespace FarmFresh.Framework.Tests.Unit.Services.Concrete
         }
 
         [Fact]
-        public async Task UpdateAsync_CategoryAlreadyExists_ShouldThrowDuplicationException()
+        public async Task UpdateAsync_CategoryNameAlreadyExists_ShouldThrowDuplicationException()
         {
             // given
             Category randomCategory = GetRandomCategory();
@@ -101,6 +101,44 @@ namespace FarmFresh.Framework.Tests.Unit.Services.Concrete
                     Times.Once);
 
             await Assert.ThrowsAsync<DuplicationException>(() =>
+                updatetCategoryByIdTask);
+
+            _categoryRepositoryMock.VerifyNoOtherCalls();
+            _categoryUnitOfWorkMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task UpdateAsync_CategoryNotFound_ShouldThrowNotFoundException()
+        {
+            // given
+            Category randomCategory = GetRandomCategory();
+            Category repositoryCategory = null;
+            UpdateCategoryRequest inputCategory = CreateCategoryUpdateRequest(randomCategory);
+
+            _categoryUnitOfWorkMock.Setup(x => x.CategoryRepository).Returns(_categoryRepositoryMock.Object);
+
+            _categoryRepositoryMock.Setup(repository =>
+                repository.IsExistsAsync(x => x.CategoryName == inputCategory.CategoryName))
+                    .ReturnsAsync(false);
+
+            _categoryRepositoryMock.Setup(repository =>
+                repository.GetByIdAsync(inputCategory.Id))
+                    .ReturnsAsync(repositoryCategory);
+
+            // when
+            Task updatetCategoryByIdTask = _categoryService
+                .UpdateAsync(inputCategory);
+
+            // then
+            _categoryRepositoryMock.Verify(repository =>
+                repository.IsExistsAsync(It.IsAny<Expression<Func<Category, bool>>>()),
+                    Times.Once);
+
+            _categoryRepositoryMock.Verify(repository =>
+                repository.GetByIdAsync(It.IsAny<long>()),
+                    Times.Once);
+
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 updatetCategoryByIdTask);
 
             _categoryRepositoryMock.VerifyNoOtherCalls();
