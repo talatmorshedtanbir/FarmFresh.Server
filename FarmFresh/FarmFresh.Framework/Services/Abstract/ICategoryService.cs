@@ -8,12 +8,12 @@ namespace FarmFresh.Framework.Services.Abstract
         Task<(IEnumerable<Category> Items, int Total, int TotalFilter)> GetAllAsync(
             string searchText, string orderBy, int pageIndex, int pageSize);
 
-        Task<Category> GetByIdAsync(int id);
+        Task<Category> GetByIdAsync(long id);
 
         Task AddAsync(AddCategoryRequest categoryRequest);
 
         Task UpdateAsync(UpdateCategoryRequest categoryRequest);
 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(long id);
     }
 }

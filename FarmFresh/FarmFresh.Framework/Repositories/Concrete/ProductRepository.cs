@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FarmFresh.Framework.Repositories.Concrete
 {
-    public class ProductRepository : Repository<Product, int, FrameworkContext>, IProductRepository
+    public class ProductRepository : Repository<Product, long, FrameworkContext>, IProductRepository
     {
         public ProductRepository(FrameworkContext dbContext)
             : base(dbContext)

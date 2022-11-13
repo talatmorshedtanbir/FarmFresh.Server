@@ -4,7 +4,7 @@ using FarmFresh.Framework.Entities.Products;
 
 namespace FarmFresh.Framework.Repositories.Abstract
 {
-    public interface IProductRepository : IRepository<Product, int, FrameworkContext>
+    public interface IProductRepository : IRepository<Product, long, FrameworkContext>
     {
         Task<Product> GetAsync(string title);
     }

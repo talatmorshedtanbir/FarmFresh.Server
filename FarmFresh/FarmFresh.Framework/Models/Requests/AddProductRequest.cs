@@ -18,6 +18,6 @@
 
         public Guid? CreatedBy { get; set; }
 
-        public IList<int> Categories { get; set; }
+        public IList<long> Categories { get; set; }
     }
 }

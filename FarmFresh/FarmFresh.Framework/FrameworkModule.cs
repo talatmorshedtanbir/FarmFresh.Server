@@ -27,6 +27,18 @@ namespace FarmFresh.Framework
                    .WithParameter("migrationAssemblyName", _migrationAssemblyName)
                    .InstancePerLifetimeScope();
 
+            builder.RegisterType<StoreRepository>().As<IStoreRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<StoreUnitOfWork>().As<IStoreUnitOfWork>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<StoreService>().As<IStoreService>()
+                   .InstancePerLifetimeScope();
+
+            builder.RegisterType<UserRoleRepository>().As<IUserRoleRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<UserRoleUnitOfWork>().As<IUserRoleUnitOfWork>()
+                   .InstancePerLifetimeScope();
+
             builder.RegisterType<UserRepository>().As<IUserRepository>()
                    .InstancePerLifetimeScope();
             builder.RegisterType<UserUnitOfWork>().As<IUserUnitOfWork>()

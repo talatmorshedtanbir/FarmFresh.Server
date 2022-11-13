@@ -4,8 +4,8 @@ using FarmFresh.Framework.Entities.Carts;
 
 namespace FarmFresh.Framework.Repositories.Abstract
 {
-    public interface ICartItemRepository : IRepository<CartItem, int, FrameworkContext>
+    public interface ICartItemRepository : IRepository<CartItem, long, FrameworkContext>
     {
-        Task<IEnumerable<CartItem>> GetByCartIdAsync(int cartItemId);
+        Task<IEnumerable<CartItem>> GetByCartIdAsync(long cartItemId);
     }
 }

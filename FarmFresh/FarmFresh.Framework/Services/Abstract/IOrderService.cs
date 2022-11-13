@@ -4,13 +4,13 @@ namespace FarmFresh.Framework.Services.Abstract
 {
     public interface IOrderService : IDisposable
     {
-        Task<IEnumerable<OrderItem>> GetOrderItemsAsync(int orderId);
+        Task<IEnumerable<OrderItem>> GetOrderItemsAsync(long orderId);
 
-        Task<CustomerOrder> GetCustomerOrderAsync(string customerEmail, int orderId);
+        Task<CustomerOrder> GetCustomerOrderAsync(string customerEmail, long orderId);
 
         Task<IEnumerable<Order>> GetCustomerOrdersAsync(string customerEmail);
 
-        Task<int> PlaceOrderAsync(string customerEmail,
+        Task<long> PlaceOrderAsync(string customerEmail,
             string customerPhone,
             string address);
     }

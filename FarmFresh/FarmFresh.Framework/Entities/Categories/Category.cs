@@ -2,7 +2,7 @@
 
 namespace FarmFresh.Framework.Entities.Categories
 {
-    public class Category : IEntity<int>
+    public class Category : IEntity<long>
     {
         public string CategoryName { get; set; }
 

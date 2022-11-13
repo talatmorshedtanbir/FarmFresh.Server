@@ -2,7 +2,7 @@
 
 namespace FarmFresh.Framework.Entities.Stores
 {
-    public class Store : IAuditableEntity<int>
+    public class Store : IAuditableEntity<long>
     {
         public string Name { get; set; }
 

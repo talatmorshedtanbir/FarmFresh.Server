@@ -5,7 +5,7 @@ using FarmFresh.Framework.Repositories.Abstract;
 
 namespace FarmFresh.Framework.Repositories.Concrete
 {
-    public class CartRepository : Repository<Cart, int, FrameworkContext>, ICartRepository
+    public class CartRepository : Repository<Cart, long, FrameworkContext>, ICartRepository
     {
         public CartRepository(FrameworkContext dbContext)
             : base(dbContext)
