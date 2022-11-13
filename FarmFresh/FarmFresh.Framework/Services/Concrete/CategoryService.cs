@@ -35,7 +35,14 @@ namespace FarmFresh.Framework.Services.Concrete
 
         public async Task<Category> GetByIdAsync(long id)
         {
-            return await _categoryUnitOfWork.CategoryRepository.GetByIdAsync(id);
+            var category = await _categoryUnitOfWork.CategoryRepository.GetByIdAsync(id);
+
+            if (category is null)
+            {
+                throw new NotFoundException(nameof(Category), nameof(id));
+            }
+
+            return category;
         }
 
         public async Task AddAsync(AddCategoryRequest categoryRequest)

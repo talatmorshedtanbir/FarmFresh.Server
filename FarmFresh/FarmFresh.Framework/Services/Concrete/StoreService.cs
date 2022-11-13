@@ -18,7 +18,7 @@ namespace FarmFresh.Framework.Services.Concrete
         }
 
         public async Task<(IEnumerable<Store> Items, int Total, int TotalFilter)> GetAllAsync(
-    string searchText, string orderBy, int pageIndex, int pageSize)
+            string searchText, string orderBy, int pageIndex, int pageSize)
         {
             var columnsMap = new Dictionary<string, Expression<Func<Store, object>>>()
             {
@@ -35,7 +35,14 @@ namespace FarmFresh.Framework.Services.Concrete
 
         public async Task<Store> GetByIdAsync(long id)
         {
-            return await _storeUnitOfWork.StoreRepository.GetByIdAsync(id);
+            var store = await _storeUnitOfWork.StoreRepository.GetByIdAsync(id);
+
+            if (store is null)
+            {
+                throw new NotFoundException(nameof(Store), nameof(id));
+            }
+
+            return store;
         }
 
         public async Task AddAsync(AddStoreRequest storeRequest)
