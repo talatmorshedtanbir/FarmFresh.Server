@@ -49,6 +49,7 @@ namespace FarmFresh.Framework.Services.Concrete
                 Email = userRequest.Email,
                 Phone = userRequest.Phone,
                 Created = DateTime.Now,
+                CreatedBy = userRequest.CreatedBy,
                 IsActive = true,
                 IsDeleted = false
             };
