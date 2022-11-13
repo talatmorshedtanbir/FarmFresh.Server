@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FarmFresh.Framework.Repositories.Concrete
 {
-    public class CartItemRepository : Repository<CartItem, int, FrameworkContext>, ICartItemRepository
+    public class CartItemRepository : Repository<CartItem, long, FrameworkContext>, ICartItemRepository
     {
         public CartItemRepository(FrameworkContext dbContext)
             : base(dbContext)
@@ -14,7 +14,7 @@ namespace FarmFresh.Framework.Repositories.Concrete
 
         }
 
-        public async Task<IEnumerable<CartItem>> GetByCartIdAsync(int cartId)
+        public async Task<IEnumerable<CartItem>> GetByCartIdAsync(long cartId)
         {
             return await _dbSet.Where(x => x.CartId == cartId).ToListAsync();
         }

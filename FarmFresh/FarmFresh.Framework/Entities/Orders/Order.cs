@@ -2,7 +2,7 @@
 
 namespace FarmFresh.Framework.Entities.Orders
 {
-    public class Order : IAuditableEntity<int>
+    public class Order : IAuditableEntity<long>
     {
         public decimal TotalCost { get; set; }
 

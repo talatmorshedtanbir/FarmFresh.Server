@@ -27,7 +27,7 @@ namespace FarmFresh.Framework.Services.Concrete
             _cartService = cartService;
         }
 
-        public async Task<IEnumerable<OrderItem>> GetOrderItemsAsync(int orderId)
+        public async Task<IEnumerable<OrderItem>> GetOrderItemsAsync(long orderId)
         {
             IEnumerable<OrderItem> orderItems = new List<OrderItem>();
 
@@ -41,7 +41,7 @@ namespace FarmFresh.Framework.Services.Concrete
             return orderItems;
         }
 
-        public async Task<CustomerOrder> GetCustomerOrderAsync(string customerEmail, int orderId)
+        public async Task<CustomerOrder> GetCustomerOrderAsync(string customerEmail, long orderId)
         {
             var customer = await _userService.GetAsync(customerEmail);
 
@@ -76,7 +76,7 @@ namespace FarmFresh.Framework.Services.Concrete
             return customerOrders;
         }
 
-        public async Task<int> PlaceOrderAsync(string customerEmail,
+        public async Task<long> PlaceOrderAsync(string customerEmail,
             string customerPhone,
             string address)
         {
@@ -91,7 +91,7 @@ namespace FarmFresh.Framework.Services.Concrete
 
 
             decimal cost = 0;
-            List<string> productIds = new List<string>();
+            List<long> productIds = new List<long>();
 
             foreach (var item in cartItems)
             {
@@ -99,8 +99,8 @@ namespace FarmFresh.Framework.Services.Concrete
 
                 productIds.AddRange(
                     Enumerable.Repeat(
-                        item.ProductId.ToString(),
-                    item.Quantity).ToList());
+                        item.ProductId,
+                    (int)item.Quantity).ToList());
             }
 
             var newOrder = new Order

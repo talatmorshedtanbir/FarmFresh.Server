@@ -4,7 +4,7 @@ using FarmFresh.Framework.Entities.Orders;
 
 namespace FarmFresh.Framework.Repositories.Abstract
 {
-    public interface ICustomerOrderRepository : IRepository<CustomerOrder, int, FrameworkContext>
+    public interface ICustomerOrderRepository : IRepository<CustomerOrder, long, FrameworkContext>
     {
     }
 }

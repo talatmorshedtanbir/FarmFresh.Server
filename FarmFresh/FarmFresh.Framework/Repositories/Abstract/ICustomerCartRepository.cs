@@ -4,7 +4,7 @@ using FarmFresh.Framework.Entities.Carts;
 
 namespace FarmFresh.Framework.Repositories.Abstract
 {
-    public interface ICustomerCartRepository : IRepository<CustomerCart, int, FrameworkContext>
+    public interface ICustomerCartRepository : IRepository<CustomerCart, long, FrameworkContext>
     {
     }
 }

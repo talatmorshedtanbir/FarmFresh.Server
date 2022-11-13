@@ -3,13 +3,13 @@ using FarmFresh.Framework.Entities.Products;
 
 namespace FarmFresh.Framework.Entities.Orders
 {
-    public class OrderItem : IEntity<int>
+    public class OrderItem : IEntity<long>
     {
-        public int ProductId { get; set; }
+        public long ProductId { get; set; }
 
-        public int OrderId { get; set; }
+        public long OrderId { get; set; }
 
-        public int Quantity { get; set; }
+        public long Quantity { get; set; }
 
         public decimal Cost { get; set; }
 

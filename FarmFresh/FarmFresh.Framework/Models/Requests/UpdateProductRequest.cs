@@ -2,7 +2,7 @@
 {
     public class UpdateProductRequest
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Title { get; set; }
 
@@ -20,6 +20,6 @@
 
         public DateTime? LastModified { get; set; }
 
-        public IList<int> Categories { get; set; }
+        public IList<long> Categories { get; set; }
     }
 }

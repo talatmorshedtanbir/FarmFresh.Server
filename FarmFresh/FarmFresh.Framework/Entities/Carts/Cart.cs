@@ -2,7 +2,7 @@
 
 namespace FarmFresh.Framework.Entities.Carts
 {
-    public class Cart : IAuditableEntity<int>
+    public class Cart : IAuditableEntity<long>
     {
         public decimal TotalCost { get; set; }
 
