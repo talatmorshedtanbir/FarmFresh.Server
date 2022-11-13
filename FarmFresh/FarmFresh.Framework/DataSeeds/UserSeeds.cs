@@ -1,30 +1,15 @@
 ﻿using FarmFresh.Framework.Entities.Users;
-using Microsoft.AspNetCore.Identity;
 
 namespace FarmFresh.Framework.DataSeeds
 {
-    public class UserSeeds
+    public static class UserSeeds
     {
-        private readonly IPasswordHasher<User> _passwordHasher;
-
-        public UserSeeds(IPasswordHasher<User> passwordHasher)
+        public static IEnumerable<User> GetUserSeeds()
         {
-            _passwordHasher = passwordHasher;
+            return Users;
         }
 
-        public List<User> GetUserSeeds()
-        {
-            var users = new List<User>();
-            foreach (var user in Users)
-            {
-                user.Password = _passwordHasher.HashPassword(user, "P@ssw0rd");
-                users.Add(user);
-            }
-
-            return users;
-        }
-
-        private List<User> Users
+        private static IEnumerable<User> Users
         {
             get
             {
@@ -38,7 +23,8 @@ namespace FarmFresh.Framework.DataSeeds
                         Created = DateTime.Now,
                         IsActive = true,
                         IsDeleted = false,
-                        Phone = "+8801817316436"
+                        Phone = "+8801817316436",
+                        Password = "P@ssw0rd"
                     },
                     new User
                     {
@@ -48,7 +34,8 @@ namespace FarmFresh.Framework.DataSeeds
                         Created = DateTime.Now,
                         IsActive = true,
                         IsDeleted = false,
-                        Phone = "+8801817316436"
+                        Phone = "+8801817316436",
+                        Password = "P@ssw0rd"
                     }
                 };
             }

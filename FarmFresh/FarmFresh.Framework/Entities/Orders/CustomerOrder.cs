@@ -3,9 +3,9 @@ using FarmFresh.Framework.Entities.Users;
 
 namespace FarmFresh.Framework.Entities.Orders
 {
-    public class CustomerOrder : IEntity<int>
+    public class CustomerOrder : IEntity<long>
     {
-        public int OrderId { get; set; }
+        public long OrderId { get; set; }
 
         public virtual Order Order { get; set; }
 

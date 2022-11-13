@@ -52,6 +52,7 @@ namespace FarmFresh.Core
         public static async Task InitializeSeedData()
         {
             var dataSeederService = new DataSeederService(ServiceProvider.GetRequiredService<IUserService>());
+
             await dataSeederService.SeedUserData();
         }
     }

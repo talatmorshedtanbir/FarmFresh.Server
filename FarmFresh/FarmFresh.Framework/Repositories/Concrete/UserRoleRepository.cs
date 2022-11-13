@@ -1,13 +1,13 @@
 ﻿using FarmFresh.Data;
 using FarmFresh.Framework.Context;
-using FarmFresh.Framework.Entities.Orders;
+using FarmFresh.Framework.Entities.Roles;
 using FarmFresh.Framework.Repositories.Abstract;
 
 namespace FarmFresh.Framework.Repositories.Concrete
 {
-    public class CustomerOrderRepository : Repository<CustomerOrder, long, FrameworkContext>, ICustomerOrderRepository
+    public class UserRoleRepository : Repository<UserRole, long, FrameworkContext>, IUserRoleRepository
     {
-        public CustomerOrderRepository(FrameworkContext dbContext)
+        public UserRoleRepository(FrameworkContext dbContext)
             : base(dbContext)
         {
 

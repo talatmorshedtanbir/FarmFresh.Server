@@ -4,7 +4,7 @@ using FarmFresh.Framework.Entities.Categories;
 
 namespace FarmFresh.Framework.Repositories.Abstract
 {
-    public interface IProductCategoryRepository : IRepository<ProductCategory, int, FrameworkContext>
+    public interface IProductCategoryRepository : IRepository<ProductCategory, long, FrameworkContext>
     {
     }
 }

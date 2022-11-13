@@ -6,7 +6,7 @@ using FarmFresh.Framework.Entities.Stores;
 
 namespace FarmFresh.Framework.Entities.Products
 {
-    public class Product : IAuditableEntity<int>
+    public class Product : IAuditableEntity<long>
     {
         public string Title { get; set; }
 

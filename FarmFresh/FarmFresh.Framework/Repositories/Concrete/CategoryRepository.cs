@@ -5,7 +5,7 @@ using FarmFresh.Framework.Repositories.Abstract;
 
 namespace FarmFresh.Framework.Repositories.Concrete
 {
-    public class CategoryRepository : Repository<Category, int, FrameworkContext>, ICategoryRepository
+    public class CategoryRepository : Repository<Category, long, FrameworkContext>, ICategoryRepository
     {
         public CategoryRepository(FrameworkContext dbContext)
             : base(dbContext)

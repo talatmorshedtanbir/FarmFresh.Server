@@ -33,7 +33,7 @@ namespace FarmFresh.Framework.Services.Concrete
             return (result.Items, result.Total, result.TotalFilter);
         }
 
-        public async Task<Category> GetByIdAsync(int id)
+        public async Task<Category> GetByIdAsync(long id)
         {
             return await _categoryUnitOfWork.CategoryRepository.GetByIdAsync(id);
         }
@@ -85,7 +85,7 @@ namespace FarmFresh.Framework.Services.Concrete
             await _categoryUnitOfWork.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(long id)
         {
             await _categoryUnitOfWork.CategoryRepository.DeleteAsync(x => x.Id == id);
             await _categoryUnitOfWork.SaveChangesAsync();

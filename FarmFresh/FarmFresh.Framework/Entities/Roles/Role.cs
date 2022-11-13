@@ -2,7 +2,7 @@
 
 namespace FarmFresh.Framework.Entities.Roles
 {
-    public class Role : IEntity<int>
+    public class Role : IEntity<long>
     {
         public string Name { get; set; }
 

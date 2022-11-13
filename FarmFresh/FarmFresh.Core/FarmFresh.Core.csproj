@@ -29,4 +29,8 @@
     <ProjectReference Include="..\FarmFresh.Framework\FarmFresh.Framework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\Framework\" />
+  </ItemGroup>
+
 </Project>

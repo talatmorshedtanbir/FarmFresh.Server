@@ -5,7 +5,7 @@ using FarmFresh.Framework.Repositories.Abstract;
 
 namespace FarmFresh.Framework.Repositories.Concrete
 {
-    internal class OrderItemRepository : Repository<OrderItem, int, FrameworkContext>, IOrderItemRepository
+    internal class OrderItemRepository : Repository<OrderItem, long, FrameworkContext>, IOrderItemRepository
     {
         public OrderItemRepository(FrameworkContext dbContext)
             : base(dbContext)
