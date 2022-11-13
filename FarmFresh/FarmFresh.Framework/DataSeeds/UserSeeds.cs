@@ -12,19 +12,12 @@ namespace FarmFresh.Framework.DataSeeds
             _passwordHasher = passwordHasher;
         }
 
-        public List<User> GetUserSeeds()
+        public IEnumerable<User> GetUserSeeds()
         {
-            var users = new List<User>();
-            foreach (var user in Users)
-            {
-                user.Password = _passwordHasher.HashPassword(user, "P@ssw0rd");
-                users.Add(user);
-            }
-
-            return users;
+            return Users;
         }
 
-        private List<User> Users
+        private IEnumerable<User> Users
         {
             get
             {
