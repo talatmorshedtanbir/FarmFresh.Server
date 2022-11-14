@@ -57,7 +57,8 @@ namespace FarmFresh.Framework.Services.Concrete
         }
 
         public async Task<(IEnumerable<ProductResponse> Items, int Total, int TotalFilter)> GetAllPaginatedAsync(
-            string searchText, string orderBy, int pageIndex, int pageSize)
+            string searchText, string orderBy, int pageIndex, int pageSize,
+            long categoryId)
         {
             var columnsMap = new Dictionary<string, Expression<Func<Product, object>>>()
             {
@@ -65,9 +66,12 @@ namespace FarmFresh.Framework.Services.Concrete
             };
 
             var result = await _productUnitOfWork.ProductRepository.GetAsync<Product>(
-                x => x, x => x.Title.Contains(searchText),
+                x => x,
+                x => x.Title.Contains(searchText) &&
+                (categoryId == 0 || x.ProductCategories.Any(x => x.CategoryId == categoryId)),
                 x => x.ApplyOrdering(columnsMap, orderBy),
-                x => x.Include(i => i.ProductCategories).ThenInclude(i => i.Category),
+                x => x.Include(i => i.ProductCategories)
+                .ThenInclude(i => i.Category),
                 pageIndex, pageSize, disableTracking: true);
 
             var productResponses = (from item in result.Items

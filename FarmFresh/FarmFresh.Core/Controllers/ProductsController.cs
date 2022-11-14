@@ -48,7 +48,8 @@ namespace FarmFresh.Core.Controllers
                 var products = await _productService.GetAllPaginatedAsync(productFilter.SearchText,
                     productFilter.OrderBy,
                     productFilter.PageNumber,
-                    productFilter.PageSize);
+                    productFilter.PageSize,
+                    productFilter.CategoryId);
 
                 var pagingInfo = new
                 {

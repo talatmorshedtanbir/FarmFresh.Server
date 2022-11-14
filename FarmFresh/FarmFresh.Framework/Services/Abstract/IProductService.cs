@@ -8,7 +8,8 @@ namespace FarmFresh.Framework.Services.Abstract
         Task<IEnumerable<ProductResponse>> GetAllAsync();
 
         Task<(IEnumerable<ProductResponse> Items, int Total, int TotalFilter)> GetAllPaginatedAsync(
-            string searchText, string orderBy, int pageIndex, int pageSize);
+            string searchText, string orderBy, int pageIndex, int pageSize,
+            long categoryId);
 
         Task<ProductResponse> GetByIdAsync(int id);
 
