@@ -1,11 +1,13 @@
 ﻿using FarmFresh.Framework.Services.Abstract;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarmFresh.Core.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CartsController : ControllerBase
     {
         private readonly ILogger<CartsController> _logger;
