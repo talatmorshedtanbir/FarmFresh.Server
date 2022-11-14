@@ -21,14 +21,35 @@ namespace FarmFresh.Core.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] ProductsFilter productFilter)
+        public async Task<IActionResult> GetAllAsync()
         {
             try
             {
-                var products = await _productService.GetAllAsync(productFilter.SearchText,
+                var products = await _productService.GetAllAsync();
+
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return BadRequest(new
+                {
+                    Result = "Error while retrieving data."
+                }); ;
+            }
+        }
+
+        [HttpGet("paginated")]
+        public async Task<IActionResult> GetPaginatedAsync([FromQuery] ProductsFilter productFilter)
+        {
+            try
+            {
+                var products = await _productService.GetAllPaginatedAsync(productFilter.SearchText,
                     productFilter.OrderBy,
                     productFilter.PageNumber,
-                    productFilter.PageSize);
+                    productFilter.PageSize,
+                    productFilter.CategoryId);
 
                 var pagingInfo = new
                 {

@@ -17,7 +17,12 @@ namespace FarmFresh.Framework.Services.Concrete
             _categoryUnitOfWork = categoryUnitOfWork;
         }
 
-        public async Task<(IEnumerable<Category> Items, int Total, int TotalFilter)> GetAllAsync(
+        public async Task<IEnumerable<Category>> GetAllAsync()
+        {
+            return await _categoryUnitOfWork.CategoryRepository.GetAllAsync();
+        }
+
+        public async Task<(IEnumerable<Category> Items, int Total, int TotalFilter)> GetAllPaginatedAsync(
             string searchText, string orderBy, int pageIndex, int pageSize)
         {
             var columnsMap = new Dictionary<string, Expression<Func<Category, object>>>()
