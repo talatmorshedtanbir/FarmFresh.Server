@@ -23,8 +23,40 @@ namespace FarmFresh.Framework.Services.Concrete
             _productCategoryUnitOfWork = productCategoryUnitOfWork;
         }
 
+        public async Task<IEnumerable<ProductResponse>> GetAllAsync()
+        {
+            var products = await _productUnitOfWork.ProductRepository.GetAsync(
+                x => x,
+                null,
+                null,
+                x => x.Include(i => i.ProductCategories).ThenInclude(i => i.Category),
+                true);
 
-        public async Task<(IEnumerable<ProductResponse> Items, int Total, int TotalFilter)> GetAllAsync(
+            var productResponses = (from item in products
+                                    select new ProductResponse
+                                    {
+                                        Categories = item.ProductCategories.Select(x => new CategoryResponse
+                                        {
+                                            Id = x.Category.Id,
+                                            CategoryName = x.Category.CategoryName
+                                        }).ToList(),
+                                        Title = item.Title,
+                                        SubTitle = item.SubTitle,
+                                        Description = item.Description,
+                                        Country = item.Country,
+                                        KeyInformation = item.KeyInformation,
+                                        IsActive = item.IsActive,
+                                        Price = item.Price,
+                                        ImageBase64 = item.ImageBase64,
+                                        Created = item.Created,
+                                        LastModified = item.LastModified,
+                                        Id = item.Id
+                                    }).ToList();
+
+            return productResponses;
+        }
+
+        public async Task<(IEnumerable<ProductResponse> Items, int Total, int TotalFilter)> GetAllPaginatedAsync(
             string searchText, string orderBy, int pageIndex, int pageSize)
         {
             var columnsMap = new Dictionary<string, Expression<Func<Product, object>>>()
